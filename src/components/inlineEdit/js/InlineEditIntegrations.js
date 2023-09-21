@@ -34,7 +34,7 @@ fluid.inlineEdit.editorViewAccessor.value = function (editField, options, newVal
     var editor = options.editorGetFn(editField);
     if (!editor || editor.length === 0) {
         if (newValue !== undefined) {
-            $(editField).val(newValue);
+            jQuery(editField).val(newValue);
         }
         return "";
     }
@@ -73,7 +73,7 @@ fluid.inlineEdit.htmlComparator = function (el1, el2) {
 };
 
 fluid.inlineEdit.bindRichTextHighlightHandler = function (element, displayModeRenderer, invitationStyle) {
-    element = $(element);
+    element = jQuery(element);
 
     var focusOn = function () {
         displayModeRenderer.addClass(invitationStyle);
@@ -91,7 +91,7 @@ fluid.inlineEdit.setupRichTextEditButton = function (that) {
     var textEditButton = that.locate("textEditButton");
 
     if (textEditButton.length === 0) {
-        var markup = $("<a href='#_' class='flc-inlineEdit-textEditButton'></a>");
+        var markup = jQuery("<a href='#_' class='flc-inlineEdit-textEditButton'></a>");
         markup.text(opts.strings.textEditButton);
 
         that.locate("text").after(markup);
@@ -138,7 +138,7 @@ fluid.inlineEdit.tinyMCE.getEditor = function (editField) {
 
 fluid.inlineEdit.tinyMCE.setValue = function (editField, editor, value) {
     // without this, there is an intermittent race condition if the editor has been created on this event.
-    $(editField).val(value);
+    jQuery(editField).val(value);
     editor.setContent(value, {format : "raw"});
 };
 
@@ -171,7 +171,7 @@ fluid.inlineEdit.tinyMCE.blurHandlerBinder = function (that) {
         // "focusEditor" call DOES deliver a blur which causes FLUID-4681
         that.deadMansBlur = fluid.deadMansBlur(that.editField, {
             cancelByDefault: true,
-            exclusions: {body: $(editorBody), container: that.container},
+            exclusions: {body: jQuery(editorBody), container: that.container},
             handler: function () {
                 that[that.options.onBlur]();
             }
@@ -325,7 +325,7 @@ fluid.inlineEdit.CKEditor.blurHandlerBinder = function (that) {
 
 fluid.inlineEdit.CKEditor.editModeRenderer = function (that) {
     var id = fluid.allocateSimpleId(that.editField);
-    $.data(fluid.unwrap(that.editField), "fluid.inlineEdit.CKEditor", that);
+    jQuery.data(fluid.unwrap(that.editField), "fluid.inlineEdit.CKEditor", that);
     var editor = CKEDITOR.replace(id, that.options.CKEditor);
     editor.on("instanceReady", function (e) {
         fluid.inlineEdit.CKEditor.focus(e.editor);
@@ -379,13 +379,13 @@ fluid.inlineEdit.dropdown.editModeRenderer = function (that) {
     });
     return {
         container: that.editContainer,
-        field: $("input.selectbox", that.editContainer)
+        field: jQuery("input.selectbox", that.editContainer)
     };
 };
 
 fluid.inlineEdit.dropdown.blurHandlerBinder = function (that) {
     fluid.deadMansBlur(that.editField, {
-        exclusions: {selectBox: $("div.selectbox-wrapper", that.editContainer)},
+        exclusions: {selectBox: jQuery("div.selectbox-wrapper", that.editContainer)},
         handler: function () {
             that.cancel();
         }

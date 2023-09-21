@@ -29,6 +29,6 @@ fluid.reorderLayout = function (container, userOptions) {
             modules: ".flc-reorderer-module"
         }
     };
-    var options = $.extend(true, assembleOptions, userOptions);
+    var options = jQuery.extend(true, assembleOptions, userOptions);
     return fluid.reorderer(container, options);
 };

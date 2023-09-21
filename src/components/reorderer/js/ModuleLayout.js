@@ -27,7 +27,7 @@ fluid.registerNamespace("fluid.moduleLayout");
 fluid.moduleLayout.findColumnAndItemIndices = function (item, layout) {
     return fluid.find(layout.columns,
         function (column, colIndex) {
-            var index = $.inArray(item, column.elements);
+            var index = jQuery.inArray(item, column.elements);
             return index === -1 ? undefined : {columnIndex: colIndex, itemIndex: index};
         }, {columnIndex: -1, itemIndex: -1});
 };
@@ -120,8 +120,8 @@ fluid.moduleLayout.layoutToIds = function (idLayout) {
 
 fluid.moduleLayout.defaultOnShowKeyboardDropWarning = function (item, dropWarning) {
     if (dropWarning) {
-        var offset = $(item).offset();
-        dropWarning = $(dropWarning);
+        var offset = jQuery(item).offset();
+        dropWarning = jQuery(dropWarning);
         dropWarning.css("position", "absolute");
         dropWarning.css("top", offset.top);
         dropWarning.css("left", offset.left);
@@ -299,7 +299,7 @@ fluid.moduleLayout.makeComputeModules = function (that, all) {
 
 fluid.moduleLayout.isLocked = function (item, lockedModulesSelector, dom) {
     var lockedModules = lockedModulesSelector ? dom.fastLocate("lockedModules") : [];
-    return $.inArray(item, lockedModules) !== -1;
+    return jQuery.inArray(item, lockedModules) !== -1;
 };
 
 fluid.moduleLayout.onMoveListener = function (item, requestedPosition, layout) {

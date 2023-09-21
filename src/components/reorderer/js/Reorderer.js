@@ -17,7 +17,7 @@ fluid.registerNamespace("fluid.reorderer");
 
 fluid.reorderer.defaultAvatarCreator = function (item, cssClass, dropWarning) {
     fluid.dom.cleanseScripts(fluid.unwrap(item));
-    var avatar = $(item).clone();
+    var avatar = jQuery(item).clone();
 
     fluid.dom.iterateDom(avatar.get(0), function (node) {
         node.removeAttribute("id");
@@ -32,18 +32,18 @@ fluid.reorderer.defaultAvatarCreator = function (item, cssClass, dropWarning) {
 
     if (dropWarning) {
         // Will a 'div' always be valid in this position?
-        var avatarContainer = $(document.createElement("div"));
+        var avatarContainer = jQuery(document.createElement("div"));
         avatarContainer.append(avatar);
         avatarContainer.append(dropWarning);
         avatar = avatarContainer;
     }
-    $("body").append(avatar);
-    if (!$.browser.safari) {
+    jQuery("body").append(avatar);
+    if (!jQuery.browser.safari) {
         // FLUID-1597: Safari appears incapable of correctly determining the dimensions of elements
         avatar.css("display", "block").width(item.offsetWidth).height(item.offsetHeight);
     }
 
-    if ($.browser.opera) { // FLUID-1490. Without this detect, curCSS explodes on the avatar on Firefox.
+    if (jQuery.browser.opera) { // FLUID-1490. Without this detect, curCSS explodes on the avatar on Firefox.
         avatar.hide();
     }
     return avatar;
@@ -56,7 +56,7 @@ fluid.reorderer.bindHandlersToContainer = function (container, keyDownHandler, k
 
     // FLUID-1598 and others: Opera will refuse to honour a "preventDefault" on a keydown.
     // http://forums.devshed.com/javascript-development-115/onkeydown-preventdefault-opera-485371.html
-    if ($.browser.opera) {
+    if (jQuery.browser.opera) {
         container.on("keypress", function (evt) {
             if (advancedPrevention) {
                 advancedPrevention = false;
@@ -337,7 +337,7 @@ fluid.reorderer.isMove = function (keysets, evt) { // NB, needs dynamic binding
 
 // unsupported, NON-API function
 fluid.reorderer.isActiveItemMovable = function (activeItem, dom) {
-    return $.inArray(activeItem, dom.fastLocate("movables")) >= 0;
+    return jQuery.inArray(activeItem, dom.fastLocate("movables")) >= 0;
 };
 
 // unsupported, NON-API function
@@ -346,7 +346,7 @@ fluid.reorderer.handleKeyDown = async function (thatReorderer, styles, evt) {
         return true;
     }
     // If the key pressed is ctrl, and the active item is movable we want to restyle the active item.
-    var jActiveItem = $(thatReorderer.activeItem);
+    var jActiveItem = jQuery(thatReorderer.activeItem);
     if (!jActiveItem.hasClass(styles.dragging) && thatReorderer.isMove(evt)) {
         // Don't treat the active item as dragging unless it is a movable.
         if (thatReorderer.isActiveItemMovable()) {
@@ -414,7 +414,7 @@ fluid.reorderer.handleKeyUp = function (thatReorderer, styles, evt) {
     if (!thatReorderer.activeItem || thatReorderer.activeItem !== evt.target) {
         return true;
     }
-    var jActiveItem = $(thatReorderer.activeItem);
+    var jActiveItem = jQuery(thatReorderer.activeItem);
 
     // Handle a key up event for the modifier
     if (jActiveItem.hasClass(styles.dragging) && !thatReorderer.isMove(evt)) {
@@ -437,7 +437,7 @@ fluid.reorderer.requestMovement = async function (thatReorderer, requestedPositi
     if (!requestedPosition || fluid.unwrap(requestedPosition.element) === item) {
         return;
     }
-    var activeItem = $(thatReorderer.activeItem);
+    var activeItem = jQuery(thatReorderer.activeItem);
 
     // Fixes FLUID-3288.
     // Need to remove the blur event as safari will call blur on movements.
@@ -446,7 +446,7 @@ fluid.reorderer.requestMovement = async function (thatReorderer, requestedPositi
 
     thatReorderer.events.onMove.fire(item, requestedPosition);
     thatReorderer.dropManager.geometricMove(item, requestedPosition.element, requestedPosition.position);
-    //$(thatReorderer.activeItem).removeClass(options.styles.selected);
+    //jQuery(thatReorderer.activeItem).removeClass(options.styles.selected);
 
     // refocus on the active item because moving places focus on the body
     await fluid.focus(activeItem);
@@ -471,7 +471,7 @@ fluid.reorderer.processAfterMoveCallbackUrl = function (thatReorderer) {
             var layoutHandler = thatReorderer.layoutHandler;
             var model = layoutHandler.getModel ? layoutHandler.getModel() :
                 options.acquireModel(thatReorderer);
-            $.post(options.afterMoveCallbackUrl, JSON.stringify(model));
+            jQuery.post(options.afterMoveCallbackUrl, JSON.stringify(model));
         }, "postModel");
     }
 };
@@ -481,7 +481,7 @@ fluid.reorderer.setDropEffects = function (dom, value) {
 };
 
 fluid.reorderer.createDropMarker = function (tagName, dropClass) {
-    var dropMarker = $(document.createElement(tagName));
+    var dropMarker = jQuery(document.createElement(tagName));
     dropMarker.addClass(dropClass);
     dropMarker.hide();
     return dropMarker;
@@ -496,7 +496,7 @@ fluid.reorderer.changeSelectedToDefault = function (jItem, styles) {
 
 fluid.reorderer.initSelectables = function (thatReorderer) {
     var handleBlur = function (evt) {
-        thatReorderer.changeSelectedToDefault($(this));
+        thatReorderer.changeSelectedToDefault(jQuery(this));
         return evt.stopPropagation();
     };
 
@@ -514,8 +514,8 @@ fluid.reorderer.initSelectables = function (thatReorderer) {
 
     var selectables = thatReorderer.dom.fastLocate("selectables");
     for (var i = 0; i < selectables.length; ++i) {
-        var selectable = $(selectables[i]);
-        if (!$.data(selectable[0], "fluid.reorderer.selectable-initialised")) {
+        var selectable = jQuery(selectables[i]);
+        if (!jQuery.data(selectable[0], "fluid.reorderer.selectable-initialised")) {
             selectable.addClass(thatReorderer.options.styles.defaultStyle);
 
             selectable.on("blur.fluid.reorderer", handleBlur);
@@ -525,7 +525,7 @@ fluid.reorderer.initSelectables = function (thatReorderer) {
             selectable.attr("role", thatReorderer.options.containerRole.item);
             selectable.attr("aria-selected", "false");
             selectable.attr("aria-disabled", "false");
-            $.data(selectable[0], "fluid.reorderer.selectable-initialised", true);
+            jQuery.data(selectable[0], "fluid.reorderer.selectable-initialised", true);
         }
     }
     if (!thatReorderer.selectableContext) {
@@ -541,11 +541,11 @@ fluid.reorderer.selectItem = function (thatReorderer, anItem) {
     thatReorderer.events.onSelect.fire(anItem);
     // Set the previous active item back to its default state.
     if (thatReorderer.activeItem && thatReorderer.activeItem !== anItem) {
-        thatReorderer.changeSelectedToDefault($(thatReorderer.activeItem));
+        thatReorderer.changeSelectedToDefault(jQuery(thatReorderer.activeItem));
     }
     // Then select the new item.
     thatReorderer.activeItem = anItem;
-    var jItem = $(anItem);
+    var jItem = jQuery(anItem);
     var styles = thatReorderer.options.styles;
     jItem.removeClass(styles.defaultStyle);
     jItem.addClass(styles.selected);
@@ -578,7 +578,7 @@ fluid.reorderer.initMovable = function (thatReorderer, dropManager, item) {
             if (thatReorderer.mouseDropWarning) {
                 dropWarningEl = thatReorderer.mouseDropWarning[0];
             }
-            avatar = $(options.avatarCreator(item[0], styles.avatar, dropWarningEl));
+            avatar = jQuery(options.avatarCreator(item[0], styles.avatar, dropWarningEl));
             avatar.prop("id", fluid.reorderer.createAvatarId(thatReorderer.container.id));
             return avatar;
         },
@@ -609,7 +609,7 @@ fluid.reorderer.initMovable = function (thatReorderer, dropManager, item) {
         stop: async function (e, ui) {
             item.removeClass(options.styles.mouseDrag);
             item.addClass(options.styles.selected);
-            $(thatReorderer.activeItem).attr("aria-grabbed", "false");
+            jQuery(thatReorderer.activeItem).attr("aria-grabbed", "false");
             var markerNode = fluid.unwrap(thatReorderer.dropMarker);
             if (markerNode.parentNode) {
                 markerNode.parentNode.removeChild(markerNode);
@@ -637,9 +637,9 @@ fluid.reorderer.initItems = function (thatReorderer) {
     // Setup movables
     for (var i = 0; i < movables.length; i++) {
         var item = movables[i];
-        if (!$.data(item, "fluid.reorderer.movable-initialised")) {
-            thatReorderer.initMovable($(item));
-            $.data(item, "fluid.reorderer.movable-initialised", true);
+        if (!jQuery.data(item, "fluid.reorderer.movable-initialised")) {
+            thatReorderer.initMovable(jQuery(item));
+            jQuery.data(item, "fluid.reorderer.movable-initialised", true);
         }
     }
     // In order to create valid html, the drop marker is the same type as the node being dragged.
@@ -730,13 +730,13 @@ fluid.reorderer.makeGeometricInfoGetter = function (orientation, sentinelize, do
             elements: dom.fastLocate("dropTargets")
         }],
         elementMapper: function (element) {
-            return $.inArray(element, dom.fastLocate("movables")) === -1 ? "locked" : null;
+            return jQuery.inArray(element, dom.fastLocate("movables")) === -1 ? "locked" : null;
         },
         elementIndexer: function (element) {
             var selectables = dom.fastLocate("selectables");
             return {
                 elementClass: that.elementMapper(element),
-                index: $.inArray(element, selectables),
+                index: jQuery.inArray(element, selectables),
                 length: selectables.length
             };
         }
@@ -897,7 +897,7 @@ fluid.reorderer.labeller.onRefresh = function (that) {
             moved.newRender = plainLabel;
             label = that.renderLabel(selectable, moved.oldRender.position);
             // once we move focus out of the element which just moved, return its ARIA label to be the new plain label
-            $(selectable).one("focusout.ariaLabeller", function () {
+            jQuery(selectable).one("focusout.ariaLabeller", function () {
                 if (movedMap[id]) {
                     var oldLabel = movedMap[id].newRender.label;
                     delete movedMap[id];
@@ -915,7 +915,7 @@ fluid.reorderer.labeller.onMove = function (that, item) {
     fluid.clear(that.movedMap); // if we somehow were fooled into missing a defocus, at least clear the map on a 2nd move
     // This "off" is needed for FLUID-4693 with Chrome 18, which generates a focusOut when
     // simply doing the DOM manipulation to move the element to a new position.
-    $(item).off("focusout.ariaLabeller");
+    jQuery(item).off("focusout.ariaLabeller");
     var movingId = fluid.allocateSimpleId(item);
     that.movedMap[movingId] = {
         oldRender: that.renderLabel(item)

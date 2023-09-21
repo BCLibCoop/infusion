@@ -66,10 +66,10 @@ fluid.inlineEdit.bindEditFinish = function (that) {
         // Fix for handling arrow key presses. See FLUID-760.
         return evt.keyCode ? evt.keyCode : (evt.which ? evt.which : 0);
     }
-    var button = that.textEditButton || $();
+    var button = that.textEditButton || jQuery();
     var escHandler = function (evt) {
         var code = keyCode(evt);
-        if (code === $.ui.keyCode.ESCAPE) {
+        if (code === jQuery.ui.keyCode.ESCAPE) {
             button.trigger("focus");
             fluid.inlineEdit.cancel(that);
             return false;
@@ -78,7 +78,7 @@ fluid.inlineEdit.bindEditFinish = function (that) {
     var finishHandler = function (evt) {
         var code = keyCode(evt);
 
-        if (code !== $.ui.keyCode.ENTER) {
+        if (code !== jQuery.ui.keyCode.ENTER) {
             button.trigger("blur");
             return true;
         } else {
@@ -201,7 +201,7 @@ fluid.inlineEdit.updateModelValue = function (that, newValue, source) {
     var unchanged = comparator ? comparator(that.model.value, newValue) :
         that.model.value === newValue;
     if (!unchanged) {
-        var oldModel = $.extend(true, {}, that.model);
+        var oldModel = jQuery.extend(true, {}, that.model);
         that.model.value = newValue;
         that.events.modelChanged.fire(that.model, oldModel, source);
         that.refreshView(source);
@@ -260,8 +260,8 @@ fluid.inlineEdit.calculateInitialPadding = function (viewEl) {
  * @return {Object} The styled edit field.
  */
 fluid.inlineEdit.setupEditField = function (editStyle, editField, editFieldMarkup) {
-    var eField = $(editField);
-    eField = eField.length ? eField : $(editFieldMarkup);
+    var eField = jQuery(editField);
+    eField = eField.length ? eField : jQuery(editFieldMarkup);
     eField.addClass(editStyle);
     return eField;
 };
@@ -278,8 +278,8 @@ fluid.inlineEdit.setupEditField = function (editStyle, editField, editFieldMarku
  * @return {Object} The edit container containing the edit field
  */
 fluid.inlineEdit.setupEditContainer = function (displayContainer, editField, editContainer, editContainerMarkup) {
-    var eContainer = $(editContainer);
-    eContainer = eContainer.length ? eContainer : $(editContainerMarkup);
+    var eContainer = jQuery(editContainer);
+    eContainer = eContainer.length ? eContainer : jQuery(editContainerMarkup);
     displayContainer.after(eContainer);
     eContainer.append(editField);
 
@@ -345,7 +345,7 @@ fluid.inlineEdit.renderEditContainer = function (that, lazyEditView) {
  * @return {jQuery} The displayed instruction in edit mode
  */
 fluid.inlineEdit.setupEditModeInstruction = function (editModeInstructionStyle, editModeInstructionText, editModeInstructionMarkup) {
-    var editModeInstruction = $(editModeInstructionMarkup);
+    var editModeInstruction = jQuery(editModeInstructionMarkup);
     editModeInstruction.addClass(editModeInstructionStyle);
     editModeInstruction.text(editModeInstructionText);
 
@@ -388,8 +388,8 @@ fluid.inlineEdit.positionEditModeInstruction = function (editModeInstruction, ed
  * @return {jQuery} The styled display mode container
  */
 fluid.inlineEdit.setupDisplayModeContainer = function (styles, displayModeWrapper) {
-    var displayModeContainer = $(displayModeWrapper);
-    displayModeContainer = displayModeContainer.length ? displayModeContainer : $("<span></span>");
+    var displayModeContainer = jQuery(displayModeWrapper);
+    displayModeContainer = displayModeContainer.length ? displayModeContainer : jQuery("<span></span>");
     displayModeContainer.addClass(styles.displayView);
 
     return displayModeContainer;
@@ -423,7 +423,7 @@ fluid.inlineEdit.setupTextEditButton = function (that, model) {
     var textEditButton = that.locate("textEditButton");
 
     if (textEditButton.length === 0) {
-        var markup = $(that.options.markup.textEditButton);
+        var markup = jQuery(that.options.markup.textEditButton);
         markup.addClass(opts.styles.textEditButton);
         markup.text(opts.tooltipText);
 
@@ -487,7 +487,7 @@ fluid.inlineEdit.bindHoverHandlers = function (displayModeRenderer, invitationSt
  * @param {Object} model - Model data to display.
  */
 fluid.inlineEdit.bindHighlightHandler = function (element, displayModeRenderer, styles, strings, model) {
-    element = $(element);
+    element = jQuery(element);
 
     var makeFocusSwitcher = function (focusOn) {
         return function () {
@@ -510,7 +510,7 @@ fluid.inlineEdit.bindHighlightHandler = function (element, displayModeRenderer, 
  *
  */
 fluid.inlineEdit.bindMouseHandlers = function (element, edit) {
-    element = $(element);
+    element = jQuery(element);
 
     var triggerGuard = fluid.inlineEdit.makeEditTriggerGuard(element, edit);
     element.on("click", function (e) {
@@ -527,7 +527,7 @@ fluid.inlineEdit.bindMouseHandlers = function (element, edit) {
  *
  */
 fluid.inlineEdit.bindKeyboardHandlers = function (element, edit) {
-    element = $(element);
+    element = jQuery(element);
     element.attr("role", "button");
 
     var guard = fluid.inlineEdit.makeEditTriggerGuard(element, edit);
@@ -618,7 +618,7 @@ fluid.defaults("fluid.inlineEdit.standardAccessor", {
 });
 
 fluid.inlineEdit.standardAccessor.value = function (nodeName, element, newValue) {
-    return fluid[nodeName === "input" || nodeName === "textarea" ? "value" : "text"]($(element), newValue);
+    return fluid[nodeName === "input" || nodeName === "textarea" ? "value" : "text"](jQuery(element), newValue);
 };
 
 fluid.defaults("fluid.inlineEdit.standardDisplayView", {
@@ -691,7 +691,7 @@ fluid.inlineEdit.setIsEditing = function (that, state) {
  * @return {Boolean} - Returns true if the tooltip feature is turned on, false if not
  */
 fluid.inlineEdit.tooltipEnabled = function (useTooltip) {
-    return useTooltip && $.fn.tooltip;
+    return useTooltip && jQuery.fn.tooltip;
 };
 
 // Backwards compatibility for users of the 1.4.x and below Infusion API - new users are recommended to directly attach

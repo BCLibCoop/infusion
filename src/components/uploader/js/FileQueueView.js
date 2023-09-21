@@ -25,7 +25,7 @@ fluid.uploader.fileQueueView.rowForFile = function (that, file) {
 };
 
 fluid.uploader.fileQueueView.errorRowForFile = function (that, file) {
-    return $("#" + file.id + "_error", that.container);
+    return jQuery("#" + file.id + "_error", that.container);
 };
 
 // TODO: None of this hierarchy operates a proper model idiom since it just shares an array instance with fileQueue
@@ -132,7 +132,7 @@ fluid.uploader.fileQueueView.bindDeleteKey = function (that, row) {
 
     fluid.activatable(row, null, {
         additionalBindings: [{
-            key: $.ui.keyCode.DELETE,
+            key: jQuery.ui.keyCode.DELETE,
             activateHandler: deleteHandler
         }]
     });
@@ -218,7 +218,7 @@ fluid.uploader.fileQueueView.refreshAfterUpload = function (that) {
     // only re-enable rowButtons for files that have not been uploaded.
     rowButtons.each(function (index, rowButton) {
         // TODO: Improve detection of completed files so as not to rely on row styling.
-        $(rowButton).prop("disabled", rows.eq(index).hasClass(that.options.styles.uploaded));
+        jQuery(rowButton).prop("disabled", rows.eq(index).hasClass(that.options.styles.uploaded));
     });
     rowButtons.removeClass(that.options.styles.dim);
     fluid.uploader.fileQueueView.enableRows(that.locate("fileRows"), true);
@@ -269,10 +269,10 @@ fluid.uploader.fileQueueView.addKeyboardNavigation = function (that) {
     that.selectableContext = fluid.selectable(that.container, {
         selectableSelector: that.options.selectors.fileRows,
         onSelect: function (itemToSelect) {
-            $(itemToSelect).addClass(that.options.styles.selected);
+            jQuery(itemToSelect).addClass(that.options.styles.selected);
         },
         onUnselect: function (selectedItem) {
-            $(selectedItem).removeClass(that.options.styles.selected);
+            jQuery(selectedItem).removeClass(that.options.styles.selected);
         }
     });
 };

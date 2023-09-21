@@ -93,13 +93,13 @@ fluid.table.bigHeaderForKey = function (key, options, idMap) {
     }
     var headerSortStylisticOffset = options.selectors.headerSortStylisticOffset;
     var bigHeader = fluid.findAncestor(smallHeader, function (element) {
-        return $(element).is(headerSortStylisticOffset);
+        return jQuery(element).is(headerSortStylisticOffset);
     });
     return bigHeader;
 };
 
 fluid.table.setSortHeaderClass = function (styles, element, sort) {
-    element = $(element);
+    element = jQuery(element);
     element.removeClass(styles.ascendingHeader);
     element.removeClass(styles.descendingHeader);
     if (sort !== 0) {
@@ -224,7 +224,7 @@ fluid.table.expandPaths = function (target, tree, opts) {
 fluid.table.expandColumnDefs = function (columnDefs, keyPrefix, dataModel, filteredRow, roots) {
     var tree = fluid.transform(columnDefs, function (columnDef) {
         var record = fluid.table.IDforColumn(columnDef, keyPrefix, roots);
-        var opts = $.extend({
+        var opts = jQuery.extend({
             dataModel: dataModel
         }, roots, record);
         var togo;

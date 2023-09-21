@@ -121,12 +121,12 @@ fluid.dom.normalisePosition = function (position, samespan, targeti, sourcei) {
 fluid.dom.permuteDom = function (element, target, position, sourceelements, targetelements) {
     element = fluid.unwrap(element);
     target = fluid.unwrap(target);
-    var sourcei = $.inArray(element, sourceelements);
+    var sourcei = jQuery.inArray(element, sourceelements);
     if (sourcei === -1) {
         fluid.fail("Error in permuteDom: source element " + fluid.dumpEl(element) +
             " not found in source list " + fluid.dumpEl(sourceelements));
     }
-    var targeti = $.inArray(target, targetelements);
+    var targeti = jQuery.inArray(target, targetelements);
     if (targeti === -1) {
         fluid.fail("Error in permuteDom: target element " + fluid.dumpEl(target) +
             " not found in source list " + fluid.dumpEl(targetelements));
@@ -306,7 +306,7 @@ fluid.dropManager = function () {
         lastClosest = null;
         displacementX = dX;
         displacementY = dY;
-        $("body").on("mousemove.fluid-dropManager", that.mouseMove);
+        jQuery("body").on("mousemove.fluid-dropManager", that.mouseMove);
     };
 
     that.lastPosition = function () {
@@ -314,7 +314,7 @@ fluid.dropManager = function () {
     };
 
     that.endDrag = function () {
-        $("body").off("mousemove.fluid-dropManager");
+        jQuery("body").off("mousemove.fluid-dropManager");
     };
 
     that.mouseMove = function (evt) {
@@ -456,7 +456,7 @@ fluid.dropManager.cacheKey = function (element) {
 };
 
 fluid.dropManager.sentinelizeElement = function (targets, sides, cacheelem, fc, disposition, clazz) {
-    var elemCopy = $.extend(true, {}, cacheelem);
+    var elemCopy = jQuery.extend(true, {}, cacheelem);
     elemCopy.origRect = fluid.copy(elemCopy.rect);
     elemCopy.rect[sides[fc]] = elemCopy.rect[sides[1 - fc]] + (fc ? 1 : -1);
     elemCopy.rect[sides[1 - fc]] = (fc ? -1 : 1) * SENTINEL_DIMENSION;
@@ -483,8 +483,8 @@ fluid.dropManager.normalizeSentinels = function (targets) {
 };
 
 fluid.dropManager.splitElement = function (targets, sides, cacheelem, disposition, clazz1, clazz2) {
-    var elem1 = $.extend(true, {}, cacheelem);
-    var elem2 = $.extend(true, {}, cacheelem);
+    var elem1 = jQuery.extend(true, {}, cacheelem);
+    var elem2 = jQuery.extend(true, {}, cacheelem);
     var midpoint = (elem1.rect[sides[0]] + elem1.rect[sides[1]]) / 2;
     elem1.rect[sides[1]] = midpoint;
     elem1.position = fluid.position.BEFORE;
@@ -515,7 +515,7 @@ fluid.dropManager.getRelativeClass = function (thisElements, index, relative, th
 fluid.dropManager.getRelativeElement = function (element, direction, elements, disableWrap) {
     var folded = fluid.directionSign(direction);
 
-    var index = $(elements).index(element) + folded;
+    var index = jQuery(elements).index(element) + folded;
     if (index < 0) {
         index += elements.length;
     }

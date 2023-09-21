@@ -29,7 +29,7 @@ fluid.tooltip.updateContentImpl = function (that) {
 fluid.tooltip.idSearchFunc = function (idToContentFunc) {
     return function (/* callback*/) {
         var target = this;
-        if ($.contains( target.ownerDocument, target )) { // prevent widget from trying to open tooltip for element no longer in document (FLUID-5394)
+        if (jQuery.contains( target.ownerDocument, target )) { // prevent widget from trying to open tooltip for element no longer in document (FLUID-5394)
             var idToContent = idToContentFunc();
             var ancestor = fluid.findAncestor(target, function (element) {
                 return idToContent[element.id];
@@ -59,7 +59,7 @@ fluid.tooltip.modelToContentFunc = function (that) {
 // reproduce the natural effect operated by event bubbling in conjunction with the widget
 fluid.tooltip.resolveTooltipTarget = function (items, event) {
     var originalTarget = fluid.resolveEventTarget(event);
-    var tooltipTarget = $(originalTarget).closest(items);
+    var tooltipTarget = jQuery(originalTarget).closest(items);
     return tooltipTarget[0];
 };
 
@@ -113,7 +113,7 @@ fluid.tooltip.setup = function (that) {
         open: fluid.tooltip.makeOpenHandler(that),
         close: fluid.tooltip.makeCloseHandler(that)
     };
-    var fullOptions = $.extend(true, directOptions, that.options.widgetOptions);
+    var fullOptions = jQuery.extend(true, directOptions, that.options.widgetOptions);
     that.container.tooltip(fullOptions);
     that.initialised = true;
 };
@@ -126,7 +126,7 @@ fluid.tooltip.doDestroy = function (that) {
             container = that.container[0];
         // jQuery UI framework will throw a fit if we have instantiated a widget on a DOM element and then
         // removed it from the DOM. This apparently can't be detected via the jQuery UI API itself.
-        if ($.contains(dokkument, container) || dokkument === container) {
+        if (jQuery.contains(dokkument, container) || dokkument === container) {
             that.container.tooltip("destroy");
         }
         that.initialised = false; // TODO: proper framework facility for this coming with FLUID-4890

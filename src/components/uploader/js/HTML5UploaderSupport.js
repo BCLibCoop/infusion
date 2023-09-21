@@ -138,7 +138,7 @@ fluid.uploader.html5Strategy.createFormData = function () {
 
 // Set additional POST parameters for xhr
 fluid.uploader.html5Strategy.setPostParams = function (formData, postParams) {
-    $.each(postParams, function (key, value) {
+    jQuery.each(postParams, function (key, value) {
         formData.append(key, value);
     });
 };
@@ -282,7 +282,7 @@ fluid.uploader.bindEventsToFileInput = function (that, fileInput) {
     // caught by the popup blocker.
     if (fluid.uploader.html5.browser.isMS) {
         fileInput.on("keydown", function (event) {
-            if (event.keyCode === $.ui.keyCode.ENTER) {
+            if (event.keyCode === jQuery.ui.keyCode.ENTER) {
                 event.preventDefault();
                 fileInput.trigger("click");
             }
@@ -307,7 +307,7 @@ fluid.uploader.bindEventsToFileInput = function (that, fileInput) {
 };
 
 fluid.uploader.renderMultiFileInput = function (that) {
-    var multiFileInput = $(that.options.multiFileInputMarkup);
+    var multiFileInput = jQuery(that.options.multiFileInputMarkup);
     var fileTypes = that.options.queueSettings.fileTypes;
     if (fluid.isArrayable(fileTypes)) {
         fileTypes = fileTypes.join();

@@ -22,7 +22,7 @@ fluid.reorderImages.deriveLightboxCellBase = function (namebase, index) {
 fluid.reorderImages.addThumbnailActivateHandler = function (container) {
     var enterKeyHandler = function (evt) {
         if (evt.which === fluid.reorderer.keys.ENTER) {
-            var thumbnailAnchors = $("a", evt.target);
+            var thumbnailAnchors = jQuery("a", evt.target);
             document.location = thumbnailAnchors.attr("href");
         }
     };
@@ -59,7 +59,7 @@ fluid.reorderImages.createImageCellFinder = function (parentNode, containerId) {
 
 fluid.reorderImages.seekForm = function (container) {
     return fluid.findAncestor(container, function (element) {
-        return $(element).is("form");
+        return jQuery(element).is("form");
     });
 };
 
@@ -100,8 +100,8 @@ fluid.reorderImages.createIDAfterMoveListener = function (container) {
         }
 
         if (reorderform && reorderform.action) {
-            var order = $(reorderform).serialize();
-            $.post(reorderform.action, order, function () { /* No-op response */ });
+            var order = jQuery(reorderform).serialize();
+            jQuery.post(reorderform.action, order, function () { /* No-op response */ });
         }
     };
 };

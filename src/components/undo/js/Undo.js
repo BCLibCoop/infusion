@@ -26,7 +26,7 @@ fluid.undo.defaultRenderer = function (that, targetContainer) {
         "<a href='#' class='flc-undo-undoControl'>" + str.undo + "</a>" +
         "<a href='#' class='flc-undo-redoControl'>" + str.redo + "</a>" +
         "</span>";
-    var markupNode = $(markup).attr({
+    var markupNode = jQuery(markup).attr({
         "role": "region",
         "aria-live": "polite",
         "aria-relevant": "all"

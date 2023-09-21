@@ -49,7 +49,7 @@ fluid.pager.computePageLimit = function (model) {
 
 fluid.pager.bindLinkClicks = function (pageLinks, initiatePageChange) {
     fluid.each(pageLinks, function (pageLink, i) {
-        fluid.pager.bindLinkClick($(pageLink), initiatePageChange, {pageIndex: i});
+        fluid.pager.bindLinkClick(jQuery(pageLink), initiatePageChange, {pageIndex: i});
     });
 };
 

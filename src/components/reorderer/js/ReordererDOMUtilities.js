@@ -36,12 +36,12 @@ fluid.dom.computeAbsolutePosition = function (element) {
  * reevaluated if the node were reattached to the document.
  */
 fluid.dom.cleanseScripts = function (element) {
-    var cleansed = $.data(element, fluid.dom.cleanseScripts.MARKER);
+    var cleansed = jQuery.data(element, fluid.dom.cleanseScripts.MARKER);
     if (!cleansed) {
         fluid.dom.iterateDom(element, function (node) {
             return node.tagName.toLowerCase() === "script" ? "delete" : null;
         });
-        $.data(element, fluid.dom.cleanseScripts.MARKER, true);
+        jQuery.data(element, fluid.dom.cleanseScripts.MARKER, true);
     }
 };
 fluid.dom.cleanseScripts.MARKER = "fluid-scripts-cleansed";

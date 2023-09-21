@@ -802,5 +802,5 @@ fluid.uploader.singleFile.toggleVisibility = function (toShow, toHide) {
 
 fluid.uploader.singleFile.showMarkup = function (that) {
     // TODO: direct DOM fascism that will fail with multiple uploaders on a single page.
-    fluid.uploader.singleFile.toggleVisibility($(that.options.selectors.basicUpload), that.container);
+    fluid.uploader.singleFile.toggleVisibility(jQuery(that.options.selectors.basicUpload), that.container);
 };

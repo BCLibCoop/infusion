@@ -250,7 +250,7 @@ fluid.defaults("fluid.progress", {
         },
         duration: "slow",
         onProgressBegin: fluid.identity
-    }, // equivalent of $().fadeIn("slow")
+    }, // equivalent of jQuery().fadeIn("slow")
 
     hideAnimation: {
         params: {
@@ -258,7 +258,7 @@ fluid.defaults("fluid.progress", {
         },
         duration: "slow",
         afterProgressHidden: fluid.identity
-    }, // equivalent of $().fadeOut("slow")
+    }, // equivalent of jQuery().fadeOut("slow")
 
     minWidth: 5, // 0 length indicators can look broken if there is a long pause between updates
     delay: 0, // the amount to delay the fade out of the progress
